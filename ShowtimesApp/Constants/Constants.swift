@@ -16,6 +16,11 @@ struct Config{
 
 struct Urls{
     
+    let nowPlaying = "https://api.themoviedb.org/3/movie/now_playing?api_key=3c4ac38bffb8736407109b911e227ec5&language=en-US&page=1"
+    let popular = "https://api.themoviedb.org/3/movie/popular?api_key=3c4ac38bffb8736407109b911e227ec5&language=en-US&page=1"
+    let topRated = "https://api.themoviedb.org/3/movie/top_rated?api_key=3c4ac38bffb8736407109b911e227ec5&language=en-US&page=1"
+    let upComing = "https://api.themoviedb.org/3/movie/upcoming?api_key=3c4ac38bffb8736407109b911e227ec5&language=en-US&page=1"
+    
 }
 
 //struct Notifications{
@@ -24,9 +29,6 @@ struct Urls{
 
 struct MovieConst{
    static let config = Config()
-    static let model = MovieModel()
+    static let urls = Urls()
 //    static let notif = Notifications()
-    
-    
-    
 }

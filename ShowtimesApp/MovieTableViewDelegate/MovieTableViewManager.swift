@@ -8,38 +8,63 @@
 
 import UIKit
 
-class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource
+class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource, UITableViewDataSourcePrefetching
 {
+    
+    
+    
+    
     //data model vars
-    var nowPlayingDictionary : [String : MovieModel]?
-    var popularMoviesDictionary : [String : MovieModel]?
-    var topRatedDictionary : [String : MovieModel]?
-    var upcomingDictionary : [String : MovieModel]?
-    var tableViewModel : [String : MovieModel]?
+        //set present tab
+    var presentTabTag : Int! {
+        didSet{
+            changeModelHelper(forTag: presentTabTag)
+        }
+    }
+    private var nowPlayingDictionary : [MovieModel]?
+    private var popularMoviesModel : [MovieModel]?
+    private var topRatedModel : [MovieModel]?
+    private var upcomingModel : [MovieModel]?
+    var tableViewModelAry : [MovieModel]?
+        //instantiate downloader
+    let downloader : Downloader =  {
+        let config = URLSessionConfiguration.ephemeral
+        config.allowsCellularAccess = true
+        return Downloader(configuration: config)
+    }()
     
     
     
-    func changeModel(forTag : Int)
+    private func changeModelHelper(forTag : Int)
     {
+        //will not check for redundant loads here, outsourcing to TabVC delegate,
+        //  first line of defense will do just fine in example app
+        
         switch forTag
         {
+            case 0:
+                guard let npModel = self.nowPlayingDictionary else{
+                    self.loadModel(withURL: MovieConst.urls.nowPlaying)
+                }
+                self.tableViewModelAry = npModel
+                break
             case 1:
-                guard let npDict = nowPlayingDictionary else{
-                    
-                    return}
-                tableViewModel = npDict
+                guard let pmModel = self.popularMoviesModel  else{
+                    self.loadModel(withURL: MovieConst.urls.popular)
+                }
+                self.tableViewModelAry = pmModel
                 break
             case 2:
-                guard let popMovieDict = popularMoviesDictionary else{return}
-                tableViewModel = popMovieDict
+                guard let trModel = self.topRatedModel else{
+                   self.loadModel(withURL: MovieConst.urls.topRated)
+                }
+                self.tableViewModelAry = trModel
                 break
             case 3:
-                guard let topRatedDict = topRatedDictionary else{return}
-                tableViewModel = topRatedDict
-                break
-            case 4:
-                guard let upComingDict = upcomingDictionary else{return}
-                tableViewModel = upComingDict
+                guard let ucModel = self.upcomingModel else{
+                   self.loadModel(withURL: MovieConst.urls.upComing)
+                }
+                self.tableViewModelAry = ucModel
                 break
             
             default:
@@ -50,9 +75,24 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
         
         
     }
+    
+    func loadModel(withURL : URL)
+    {
+        
+        self.downloader.download(url: withURL){
+            url in
+            
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let movieCell = tableView.dequeueReusableCell(withIdentifier: MovieConst.config.cellReuseID)!
+        let movieCell = tableView.dequeueReusableCell(withIdentifier: MovieConst.config.cellReuseID)! as! MovieTableViewCell
+        //get movie model & assign props to cell attrs
+        let movieModel = self.tableViewModelAry![indexPath.row]
+        movieCell.movieTitleLabel.text = movieModel.movieTitleText
+        movieCell.movieOverviewLabel.text = movieModel.movieOverviewLabelText
+        movieCell.posterPathImageView.image = UIImage(data: movieModel.posterPath.imageData!)
         
         return movieCell
     }
@@ -63,6 +103,41 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
+    }
+    
+    //tableView prefecting delegate func
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        
+        for indexPath in indexPaths
+        {
+            //get movie model
+            var movieModel = self.tableViewModelAry![indexPath.row]
+            // if image data nil, retreive resource
+            guard movieModel.posterPath.imageData == nil else{return}
+            // if task nil, start task, else in DL progress
+            guard movieModel.task == nil else{return}
+            
+            movieModel.task = self.downloader.download(url: movieModel.posterPath.url){
+                tempUrlForResource in
+                
+                //remove task, changes DL status to in progress
+                movieModel.task = nil
+                
+//                DispatchQueue.global(qos: DispatchQoS.QoSClass.background).async {
+                    //get data @ url, reload table @ current indexPath
+                    if let url = tempUrlForResource, let data = try? Data(contentsOf: url)
+                    {
+//                        DispatchQueue.main.async {
+                            movieModel.posterPath.imageData = data
+                            tableView.reloadRows(at: [indexPath], with: .none)
+//                        }
+                        
+                    }
+//                }
+                
+  
+            }
+        }
     }
     
     

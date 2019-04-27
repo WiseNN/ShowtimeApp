@@ -39,7 +39,7 @@ class TabViewController: UIViewController, UITabBarDelegate
         //add movieTableView as subview to main view
         self.view.addSubview(movieTableView)
         //select first tab on default
-        self.categoryTabBar.selectedItem = self.categoryTabBar.items![0]
+        self.categoryTabBar.selectedItem = self.categoryTabBar.items![movieTableViewManager.presentTabTag]
         
         //set categoryTabBar delegate
         categoryTabBar.delegate = self
@@ -47,12 +47,20 @@ class TabViewController: UIViewController, UITabBarDelegate
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        //show first tab on load
+        self.movieTableViewManager.presentTabTag = 0
+    }
+    
     
     func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem)
     {
-        //switch views based on uitabbar item tag
-        movieTableViewManager.changeModel(forTag: item.tag)
-        print("selected Tab: \(item.tag)")
+        //if tab is already selected, ignore event
+        guard self.categoryTabBar.selectedItem!.tag != item.tag else{return}
+        
+        //update observable in movie manager based on tag tag
+        movieTableViewManager.presentTabTag = item.tag
+        print("Selected Tab: \(item.tag)")
     }
 
     override func didReceiveMemoryWarning() {

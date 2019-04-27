@@ -8,9 +8,15 @@
 
 import Foundation
 
+
+struct PosterPath {
+    var imageData : Data?
+    var url : URL!
+}
 struct MovieModel
 {
-    var posterPathImageUrl: URL?
-    var movieTitleText: String?
-    var movieOverviewLabelText : String?
+    var posterPath : PosterPath! = PosterPath()
+    var movieTitleText: String
+    var movieOverviewLabelText : String
+    var task : URLSessionTask?
 }
