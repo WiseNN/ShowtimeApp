@@ -14,8 +14,19 @@ struct Config{
     let nibName = "MovieTableViewCell"
 }
 
+struct Urls{
+    
+}
+
+//struct Notifications{
+//    let UpdateModel = Notification.Name(rawValue: "UpdateModel")
+//}
+
 struct MovieConst{
    static let config = Config()
+    static let model = MovieModel()
+//    static let notif = Notifications()
+    
     
     
 }
