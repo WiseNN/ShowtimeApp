@@ -9,10 +9,15 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    @IBOutlet var categoryTabBar: UITabBar!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+    categoryTabBar.backgroundColor = UIColor.blue
+        
+    
     }
 
     override func didReceiveMemoryWarning() {
