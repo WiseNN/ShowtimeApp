@@ -38,8 +38,6 @@ class TabViewController: UIViewController, UITabBarDelegate
         movieTableView.prefetchDataSource = (movieTableViewManager as! UITableViewDataSourcePrefetching)
         //add movieTableView as subview to main view
         self.view.addSubview(movieTableView)
-        //select first tab on default
-        self.categoryTabBar.selectedItem = self.categoryTabBar.items![movieTableViewManager.presentTabTag]
         
         //set categoryTabBar delegate
         categoryTabBar.delegate = self
@@ -49,14 +47,16 @@ class TabViewController: UIViewController, UITabBarDelegate
     
     override func viewWillAppear(_ animated: Bool) {
         //show first tab on load
-        self.movieTableViewManager.presentTabTag = 0
+//        self.movieTableViewManager.presentTabTag = 0
+        //select first tab on default
+//        self.categoryTabBar.selectedItem = self.categoryTabBar.items![movieTableViewManager.presentTabTag]
     }
     
     
     func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem)
     {
         //if tab is already selected, ignore event
-        guard self.categoryTabBar.selectedItem!.tag != item.tag else{return}
+//        guard self.categoryTabBar.selectedItem!.tag != item.tag else{return}
         
         //update observable in movie manager based on tag tag
         movieTableViewManager.presentTabTag = item.tag

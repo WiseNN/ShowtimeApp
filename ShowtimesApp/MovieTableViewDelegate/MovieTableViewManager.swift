@@ -15,17 +15,25 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
     
     
     //data model vars
+    var movies = Movies()
+    var tableViewModelAry : [MovieModel] = [MovieModel]()
         //set present tab
     var presentTabTag : Int! {
         didSet{
-            changeModelHelper(forTag: presentTabTag)
+            
+            let movieCategory = Movies.MovieCategory(rawValue: presentTabTag)!
+            let movieModelAry = movies.getModel(forCategory: movieCategory)
+            
+            //if nil or not already present, load model
+            guard movieModelAry == nil else{ tableViewModelAry = movieModelAry!; return}
+            let categoryUrl = movies.getUrl(forCategory: movieCategory)
+            loadModel(atURL: categoryUrl, forCategory: movieCategory)
+            
         }
     }
-    private var nowPlayingDictionary : [MovieModel]?
-    private var popularMoviesModel : [MovieModel]?
-    private var topRatedModel : [MovieModel]?
-    private var upcomingModel : [MovieModel]?
-    var tableViewModelAry : [MovieModel]?
+    
+    
+
         //instantiate downloader
     let downloader : Downloader =  {
         let config = URLSessionConfiguration.ephemeral
@@ -35,52 +43,33 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
     
     
     
-    private func changeModelHelper(forTag : Int)
-    {
-        //will not check for redundant loads here, outsourcing to TabVC delegate,
-        //  first line of defense will do just fine in example app
-        
-        switch forTag
-        {
-            case 0:
-                guard let npModel = self.nowPlayingDictionary else{
-                    self.loadModel(withURL: MovieConst.urls.nowPlaying)
-                }
-                self.tableViewModelAry = npModel
-                break
-            case 1:
-                guard let pmModel = self.popularMoviesModel  else{
-                    self.loadModel(withURL: MovieConst.urls.popular)
-                }
-                self.tableViewModelAry = pmModel
-                break
-            case 2:
-                guard let trModel = self.topRatedModel else{
-                   self.loadModel(withURL: MovieConst.urls.topRated)
-                }
-                self.tableViewModelAry = trModel
-                break
-            case 3:
-                guard let ucModel = self.upcomingModel else{
-                   self.loadModel(withURL: MovieConst.urls.upComing)
-                }
-                self.tableViewModelAry = ucModel
-                break
-            
-            default:
-                print("ERROR ==> CHECK: MovieTableViewManager.changeModel(_:) ")
-            break
-            
-        }
-        
-        
-    }
+
     
-    func loadModel(withURL : URL)
+    func loadModel(atURL : URL, forCategory: Movies.MovieCategory)
     {
-        
-        self.downloader.download(url: withURL){
-            url in
+        self.downloader.download(url: atURL){
+            resourceTempUrl in
+            
+            do{
+                let data = try Data(contentsOf: resourceTempUrl!)
+                //deserialize json and map to codable movie model ary
+                let cMmAry = try JSONDecoder().decode([CodableMovieModel].self, from: data)
+                var movieModelAry = [MovieModel]()
+                for cMm in cMmAry{
+                    
+                    let newMovieModel = MovieModel(posterPath: PosterPath(imageData: nil, url: URL(string: cMm.poster_path ?? "")), movieTitleText: cMm.title!, movieOverviewLabelText: cMm.overview!, task: nil)
+                    
+                   movieModelAry.append(newMovieModel)
+                }
+                
+                self.movies.setModel(forCategory: forCategory, withModel: movieModelAry)
+                
+                
+                
+                
+            }catch {
+                print("ATTN!! => Model loading err: \(error.localizedDescription)")
+            }
             
         }
     }
@@ -89,7 +78,8 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
         
         let movieCell = tableView.dequeueReusableCell(withIdentifier: MovieConst.config.cellReuseID)! as! MovieTableViewCell
         //get movie model & assign props to cell attrs
-        let movieModel = self.tableViewModelAry![indexPath.row]
+        guard tableViewModelAry.count > 0 else{return movieCell}
+        let movieModel = self.tableViewModelAry[indexPath.row]
         movieCell.movieTitleLabel.text = movieModel.movieTitleText
         movieCell.movieOverviewLabel.text = movieModel.movieOverviewLabelText
         movieCell.posterPathImageView.image = UIImage(data: movieModel.posterPath.imageData!)
@@ -98,7 +88,7 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return tableViewModelAry.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -107,11 +97,11 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
     
     //tableView prefecting delegate func
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        
+        guard tableViewModelAry.count > 0 else{return}
         for indexPath in indexPaths
         {
             //get movie model
-            var movieModel = self.tableViewModelAry![indexPath.row]
+            var movieModel = self.tableViewModelAry[indexPath.row]
             // if image data nil, retreive resource
             guard movieModel.posterPath.imageData == nil else{return}
             // if task nil, start task, else in DL progress

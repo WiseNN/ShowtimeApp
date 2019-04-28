@@ -24,7 +24,7 @@ class Downloader: NSObject {
     }
     
     @discardableResult
-    func download(url:URL, completionHandler ch : @escaping DownloaderCH) -> URLSessionTask {
+    func download(url:URL, completionHandler ch :  @escaping DownloaderCH) -> URLSessionTask {
         let task = self.session.downloadTask(with:url)
         let del = self.session.delegate as! DownloaderDelegate
         //comm with DownloaderDelegate on its own queue
