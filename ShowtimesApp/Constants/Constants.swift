@@ -20,15 +20,16 @@ struct Urls{
     let popular = URL(string: "https://api.themoviedb.org/3/movie/popular?api_key=3c4ac38bffb8736407109b911e227ec5&language=en-US&page=1")!
     let topRated = URL(string: "https://api.themoviedb.org/3/movie/top_rated?api_key=3c4ac38bffb8736407109b911e227ec5&language=en-US&page=1")!
     let upComing = URL(string: "https://api.themoviedb.org/3/movie/upcoming?api_key=3c4ac38bffb8736407109b911e227ec5&language=en-US&page=1")!
+    let baseImage = URL(string: "https://image.tmdb.org/t/p/w185/")!
     
 }
 
-//struct Notifications{
-//    let UpdateModel = Notification.Name(rawValue: "UpdateModel")
-//}
+struct Notifications{
+    let refreshTable = Notification.Name(rawValue: "RefreshTable")
+}
 
 struct MovieConst{
    static let config = Config()
     static let urls = Urls()
-//    static let notif = Notifications()
+    static let notifications = Notifications()
 }

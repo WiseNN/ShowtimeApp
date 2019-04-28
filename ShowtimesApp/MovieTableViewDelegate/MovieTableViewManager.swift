@@ -53,17 +53,26 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
             do{
                 let data = try Data(contentsOf: resourceTempUrl!)
                 //deserialize json and map to codable movie model ary
-                let cMmAry = try JSONDecoder().decode([CodableMovieModel].self, from: data)
+                let codableMovieResults = try JSONDecoder().decode(CodableResults.self, from: data)
+                let cMmAry = codableMovieResults.results!
+                print("Data Model from API: \(cMmAry)")
                 var movieModelAry = [MovieModel]()
-                for cMm in cMmAry{
+
+                for cMm in cMmAry
+                {
+                    let imageUrl : URL? = cMm.poster_path != nil ? MovieConst.urls.baseImage.appendingPathComponent(cMm.poster_path!) : nil
+                    let newMovieModel = MovieModel(posterPath: PosterPath(imageData: nil, url: imageUrl), movieTitleText: cMm.title!, movieOverviewLabelText: cMm.overview!, task: nil)
                     
-                    let newMovieModel = MovieModel(posterPath: PosterPath(imageData: nil, url: URL(string: cMm.poster_path ?? "")), movieTitleText: cMm.title!, movieOverviewLabelText: cMm.overview!, task: nil)
                     
                    movieModelAry.append(newMovieModel)
                 }
+                print("")
                 
                 self.movies.setModel(forCategory: forCategory, withModel: movieModelAry)
-                
+                let retrievedModel = self.movies.getModel(forCategory: forCategory)
+                guard let updatedMovieModel = retrievedModel else{ print("ATTN!! => \(forCategory) movie model is empty");return}
+                self.tableViewModelAry = updatedMovieModel
+                NotificationCenter.default.post(name: MovieConst.notifications.refreshTable, object: nil)
                 
                 
                 
@@ -77,12 +86,18 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let movieCell = tableView.dequeueReusableCell(withIdentifier: MovieConst.config.cellReuseID)! as! MovieTableViewCell
+        
+        if movieCell.tag != 232
+        {
+            movieCell.tag == 232
+            movieCell.posterPathImageView.contentMode = .scaleAspectFill
+        }
         //get movie model & assign props to cell attrs
         guard tableViewModelAry.count > 0 else{return movieCell}
         let movieModel = self.tableViewModelAry[indexPath.row]
         movieCell.movieTitleLabel.text = movieModel.movieTitleText
         movieCell.movieOverviewLabel.text = movieModel.movieOverviewLabelText
-        movieCell.posterPathImageView.image = UIImage(data: movieModel.posterPath.imageData!)
+        movieCell.posterPathImageView.image = UIImage(data: movieModel.posterPath.imageData ?? Data())
         
         return movieCell
     }
@@ -97,6 +112,7 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
     
     //tableView prefecting delegate func
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        
         guard tableViewModelAry.count > 0 else{return}
         for indexPath in indexPaths
         {
@@ -105,7 +121,7 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
             // if image data nil, retreive resource
             guard movieModel.posterPath.imageData == nil else{return}
             // if task nil, start task, else in DL progress
-            guard movieModel.task == nil else{return}
+            guard movieModel.task == nil && movieModel.posterPath.url != nil else{return}
             
             movieModel.task = self.downloader.download(url: movieModel.posterPath.url){
                 tempUrlForResource in
@@ -117,10 +133,11 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
                     //get data @ url, reload table @ current indexPath
                     if let url = tempUrlForResource, let data = try? Data(contentsOf: url)
                     {
-//                        DispatchQueue.main.async {
-                            movieModel.posterPath.imageData = data
-                            tableView.reloadRows(at: [indexPath], with: .none)
-//                        }
+                        DispatchQueue.main.async {
+                        
+                        movieModel.posterPath.imageData = data
+//                            tableView.reloadRows(at: [indexPath], with: .none)
+                        }
                         
                     }
 //                }

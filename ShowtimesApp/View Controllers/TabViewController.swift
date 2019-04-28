@@ -41,15 +41,30 @@ class TabViewController: UIViewController, UITabBarDelegate
         
         //set categoryTabBar delegate
         categoryTabBar.delegate = self
+        for item in categoryTabBar.items!
+        {
+                
+        }
         
         
     }
     
+    @objc func refreshTableView()
+    {
+        movieTableView.reloadData()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(TabViewController.refreshTableView), name: MovieConst.notifications.refreshTable, object: nil)
         //show first tab on load
 //        self.movieTableViewManager.presentTabTag = 0
         //select first tab on default
 //        self.categoryTabBar.selectedItem = self.categoryTabBar.items![movieTableViewManager.presentTabTag]
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: MovieConst.notifications.refreshTable, object: nil)
     }
     
     

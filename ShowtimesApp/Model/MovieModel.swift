@@ -24,9 +24,13 @@ struct MovieModel
 
 //Codable structs
 struct CodableMovieModel : Decodable {
-    var title : String?
-    var poster_path : String?
-    var overview : String?
+    let title : String?
+    let poster_path : String?
+    let overview : String?
+}
+
+struct CodableResults : Decodable{
+    let results : [CodableMovieModel]?
 }
 
 
