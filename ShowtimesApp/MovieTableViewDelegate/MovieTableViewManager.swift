@@ -12,7 +12,7 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
 {
     
     
-    
+    weak var movieTableView : UITableView!
     
     //data model vars
     var movies = Movies()
@@ -82,6 +82,13 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
             
         }
     }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tableViewModelAry.count
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -99,52 +106,46 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
         movieCell.movieOverviewLabel.text = movieModel.movieOverviewLabelText
         movieCell.posterPathImageView.image = UIImage(data: movieModel.posterPath.imageData ?? Data())
         
+//        if movieModel.task == nil && movieModel.posterPath.imageData == nil
+//        {
+//
+//        }
         return movieCell
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableViewModelAry.count
-    }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+    
+    func imageDownloadHelper(forTableView : UITableView, withRowIndex : Int)
+  {
+    
+    //get movie model
+    var movieModel = self.tableViewModelAry[withRowIndex]
+    // if image data nil, retreive resource
+    guard movieModel.posterPath.imageData == nil else{return}
+    // if task nil, start task, else in DL progress
+    guard movieModel.task == nil && movieModel.posterPath.url != nil else{return}
+    
+    self.tableViewModelAry[withRowIndex].task = self.downloader.download(url: movieModel.posterPath.url){
+        tempUrlForResource in
+        
+        //remove task, changes DL status to in progress
+        self.tableViewModelAry[withRowIndex].task = nil
+        
+        //get data @ url, reload table @ current indexPath
+        if let url = tempUrlForResource, let data = try? Data(contentsOf: url)
+        {
+            self.tableViewModelAry[withRowIndex].posterPath.imageData = data
+            forTableView.reloadRows(at: [IndexPath(item: withRowIndex, section: 0)], with: .none)
+        }
     }
+  }
     
     //tableView prefecting delegate func
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         
         guard tableViewModelAry.count > 0 else{return}
-        for indexPath in indexPaths
-        {
-            //get movie model
-            var movieModel = self.tableViewModelAry[indexPath.row]
-            // if image data nil, retreive resource
-            guard movieModel.posterPath.imageData == nil else{return}
-            // if task nil, start task, else in DL progress
-            guard movieModel.task == nil && movieModel.posterPath.url != nil else{return}
-            
-            movieModel.task = self.downloader.download(url: movieModel.posterPath.url){
-                tempUrlForResource in
-                
-                //remove task, changes DL status to in progress
-                movieModel.task = nil
-                
-//                DispatchQueue.global(qos: DispatchQoS.QoSClass.background).async {
-                    //get data @ url, reload table @ current indexPath
-                    if let url = tempUrlForResource, let data = try? Data(contentsOf: url)
-                    {
-                        DispatchQueue.main.async {
-                        
-                        movieModel.posterPath.imageData = data
-//                            tableView.reloadRows(at: [indexPath], with: .none)
-                        }
-                        
-                    }
-//                }
-                
-  
-            }
-        }
+        indexPaths.forEach{self.imageDownloadHelper(forTableView: tableView, withRowIndex: $0.row)}
+        
     }
     
     

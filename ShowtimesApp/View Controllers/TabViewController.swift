@@ -23,9 +23,11 @@ class TabViewController: UIViewController, UITabBarDelegate
         
         //add resizing mask to main view for rotation
         self.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.view.setNeedsDisplay()
         //create movie movieTableview
         let navBarHeight = self.navigationController!.navigationBar.bounds.height
-        let tvFrame = CGRect(x: 0,y: navBarHeight,width: self.view.bounds.width,height: self.view.bounds.height - categoryTabBar.bounds.height - navBarHeight)
+        let tvFrame = CGRect(x: 0,y: navBarHeight,width: self.view.bounds.width,height: UIScreen.main.bounds.height - (categoryTabBar.bounds.maxY))
+        print("height: \(categoryTabBar.bounds.height)")
         movieTableView = UITableView(frame: tvFrame, style: .plain)
         //set datasource/delegate for moviewTableView
         movieTableView.delegate = movieTableViewManager
@@ -36,15 +38,14 @@ class TabViewController: UIViewController, UITabBarDelegate
         movieTableView.register(UINib(nibName: MovieConst.config.nibName, bundle: nil), forCellReuseIdentifier: MovieConst.config.cellReuseID)
         //turn-on prefetching
         movieTableView.prefetchDataSource = (movieTableViewManager as! UITableViewDataSourcePrefetching)
+        //pass MoviewTableViewManager instance of tableView
+        movieTableViewManager.movieTableView = movieTableView
         //add movieTableView as subview to main view
         self.view.addSubview(movieTableView)
         
         //set categoryTabBar delegate
         categoryTabBar.delegate = self
-        for item in categoryTabBar.items!
-        {
-                
-        }
+        
         
         
     }

@@ -24,8 +24,8 @@ class MovieTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        posterPathImageView.layer.borderColor = UIColor.orange.cgColor
-        posterPathImageView.layer.borderWidth = 4
+//        posterPathImageView.layer.borderColor = UIColor.orange.cgColor
+//        posterPathImageView.layer.borderWidth = 4
         
     }
 
