@@ -21,6 +21,9 @@
                             <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HDa-m6-Oxg">
                                 <rect key="frame" x="0.0" y="695" width="375" height="83"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="83" id="wZX-jP-iui"/>
+                                </constraints>
                                 <items>
                                     <tabBarItem title="" image="nowPlayingIcom_unselected" selectedImage="nowPlayingIcom_selected" id="2re-Ni-V43">
                                         <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-14"/>
@@ -52,6 +55,7 @@
                     <navigationItem key="navigationItem" title="THE MOVIE DB" id="SeZ-sa-KI2"/>
                     <connections>
                         <outlet property="categoryTabBar" destination="HDa-m6-Oxg" id="LB6-88-hM5"/>
+                        <outlet property="tabBarHeightConstraint" destination="wZX-jP-iui" id="EHP-uA-2nX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

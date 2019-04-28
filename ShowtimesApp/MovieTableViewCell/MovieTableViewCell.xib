@@ -20,14 +20,14 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Oed-UZ-APV">
-                        <rect key="frame" x="6" y="4.5" width="141" height="172.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="128" height="182"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="141" id="W9g-tt-P9s"/>
-                            <constraint firstAttribute="height" constant="172.5" id="Yj3-xf-nAr"/>
+                            <constraint firstAttribute="height" constant="182" id="Yj3-xf-nAr"/>
+                            <constraint firstAttribute="width" constant="128" id="mHp-rh-RY7"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title Label" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4vq-6p-jz3">
-                        <rect key="frame" x="155" y="20" width="199" height="46"/>
+                        <rect key="frame" x="136" y="20" width="218" height="46"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="46" id="5Dh-ka-qwT"/>
                         </constraints>
@@ -36,17 +36,17 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QtH-eV-VJc">
-                        <rect key="frame" x="155" y="66" width="199" height="105"/>
+                        <rect key="frame" x="136" y="66" width="218" height="105"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Oed-UZ-APV" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="6" id="0u3-ci-EWl"/>
+                    <constraint firstItem="Oed-UZ-APV" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="0u3-ci-EWl"/>
                     <constraint firstItem="QtH-eV-VJc" firstAttribute="leading" secondItem="Oed-UZ-APV" secondAttribute="trailing" constant="8" id="4a4-wq-1lA"/>
                     <constraint firstAttribute="trailing" secondItem="4vq-6p-jz3" secondAttribute="trailing" constant="22" id="9MS-vu-7Em"/>
-                    <constraint firstAttribute="bottom" secondItem="Oed-UZ-APV" secondAttribute="bottom" constant="4.5" id="BrL-Mi-xce"/>
+                    <constraint firstAttribute="bottom" secondItem="Oed-UZ-APV" secondAttribute="bottom" constant="-0.5" id="BrL-Mi-xce"/>
                     <constraint firstAttribute="bottom" secondItem="QtH-eV-VJc" secondAttribute="bottom" constant="10.5" id="EuA-Ze-DkV"/>
                     <constraint firstItem="Oed-UZ-APV" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="GQ0-y1-TC2"/>
                     <constraint firstItem="QtH-eV-VJc" firstAttribute="top" secondItem="4vq-6p-jz3" secondAttribute="bottom" id="Hqt-6w-kc6"/>

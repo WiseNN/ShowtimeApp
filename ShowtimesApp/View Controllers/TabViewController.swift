@@ -13,6 +13,7 @@ class TabViewController: UIViewController, UITabBarDelegate
     //outlets
     @IBOutlet var categoryTabBar: UITabBar!
     
+    @IBOutlet var tabBarHeightConstraint: NSLayoutConstraint!
     //class vars
     var movieTableView : UITableView!
     let movieTableViewManager = MovieTableViewManager()
@@ -26,7 +27,8 @@ class TabViewController: UIViewController, UITabBarDelegate
         self.view.setNeedsDisplay()
         //create movie movieTableview
         let navBarHeight = self.navigationController!.navigationBar.bounds.height
-        let tvFrame = CGRect(x: 0,y: navBarHeight,width: self.view.bounds.width,height: UIScreen.main.bounds.height - (categoryTabBar.bounds.maxY))
+        print("navHeight: \(navBarHeight)")
+        let tvFrame = CGRect(x: 0,y: navBarHeight,width: self.view.bounds.width,height: self.view.bounds.height)
         print("height: \(categoryTabBar.bounds.height)")
         movieTableView = UITableView(frame: tvFrame, style: .plain)
         //set datasource/delegate for moviewTableView
@@ -38,10 +40,10 @@ class TabViewController: UIViewController, UITabBarDelegate
         movieTableView.register(UINib(nibName: MovieConst.config.nibName, bundle: nil), forCellReuseIdentifier: MovieConst.config.cellReuseID)
         //turn-on prefetching
         movieTableView.prefetchDataSource = (movieTableViewManager as! UITableViewDataSourcePrefetching)
-        //pass MoviewTableViewManager instance of tableView
-        movieTableViewManager.movieTableView = movieTableView
         //add movieTableView as subview to main view
-        self.view.addSubview(movieTableView)
+        self.view.insertSubview(movieTableView, belowSubview: categoryTabBar)
+        //change row insertion animation
+        
         
         //set categoryTabBar delegate
         categoryTabBar.delegate = self
@@ -52,7 +54,9 @@ class TabViewController: UIViewController, UITabBarDelegate
     
     @objc func refreshTableView()
     {
-        movieTableView.reloadData()
+        self.movieTableView.reloadData()
+        self.movieTableView.layoutIfNeeded()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

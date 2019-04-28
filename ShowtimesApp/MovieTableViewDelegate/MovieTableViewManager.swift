@@ -11,9 +11,6 @@ import UIKit
 class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource, UITableViewDataSourcePrefetching
 {
     
-    
-    weak var movieTableView : UITableView!
-    
     //data model vars
     var movies = Movies()
     var tableViewModelAry : [MovieModel] = [MovieModel]()
@@ -24,8 +21,12 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
             let movieCategory = Movies.MovieCategory(rawValue: presentTabTag)!
             let movieModelAry = movies.getModel(forCategory: movieCategory)
             
-            //if nil or not already present, load model
-            guard movieModelAry == nil else{ tableViewModelAry = movieModelAry!; return}
+            //if nil, load model else use in memory model
+            guard movieModelAry == nil else{
+                tableViewModelAry = movieModelAry!
+                NotificationCenter.default.post(name: MovieConst.notifications.refreshTable, object: nil)
+                return
+            }
             let categoryUrl = movies.getUrl(forCategory: movieCategory)
             loadModel(atURL: categoryUrl, forCategory: movieCategory)
             
@@ -98,18 +99,39 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
         {
             movieCell.tag == 232
             movieCell.posterPathImageView.contentMode = .scaleAspectFill
+            movieCell.posterPathImageView.clipsToBounds = true
+            
         }
         //get movie model & assign props to cell attrs
         guard tableViewModelAry.count > 0 else{return movieCell}
         let movieModel = self.tableViewModelAry[indexPath.row]
         movieCell.movieTitleLabel.text = movieModel.movieTitleText
         movieCell.movieOverviewLabel.text = movieModel.movieOverviewLabelText
-        movieCell.posterPathImageView.image = UIImage(data: movieModel.posterPath.imageData ?? Data())
+        if let imageData = movieModel.posterPath.imageData
+        {
+            DispatchQueue.main.async {
+                let img = UIImage(data: imageData)
+                movieCell.viewWithTag(122)?.removeFromSuperview()
+                movieCell.posterPathImageView.image = img
+                
+            }
+            
+        }else{
+            movieCell.posterPathImageView.image = nil
+            let uiActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+            uiActivityIndicator.frame = movieCell.posterPathImageView.bounds
+            uiActivityIndicator.tag = 122
+            movieCell.addSubview(uiActivityIndicator)
+            uiActivityIndicator.startAnimating()
+            
+        }
         
-//        if movieModel.task == nil && movieModel.posterPath.imageData == nil
-//        {
-//
-//        }
+        
+        if movieModel.task == nil && movieModel.posterPath.imageData == nil
+        {
+            guard tableView.indexPathsForVisibleRows != nil else{return movieCell}
+            self.tableView(tableView, prefetchRowsAt: tableView.indexPathsForVisibleRows!)
+        }
         return movieCell
     }
     
@@ -135,7 +157,7 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
         if let url = tempUrlForResource, let data = try? Data(contentsOf: url)
         {
             self.tableViewModelAry[withRowIndex].posterPath.imageData = data
-            forTableView.reloadRows(at: [IndexPath(item: withRowIndex, section: 0)], with: .none)
+            forTableView.reloadRows(at: [IndexPath(item: withRowIndex, section: 0)], with: .fade)
         }
     }
   }
