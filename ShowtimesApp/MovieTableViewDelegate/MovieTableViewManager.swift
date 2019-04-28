@@ -100,6 +100,11 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
             movieCell.tag == 232
             movieCell.posterPathImageView.contentMode = .scaleAspectFill
             movieCell.posterPathImageView.clipsToBounds = true
+            movieCell.contentView.layer.backgroundColor = UIColor.black.cgColor
+            movieCell.movieTitleLabel.textColor = UIColor.white
+            movieCell.movieOverviewLabel.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
+            movieCell.selectionStyle = .none
+            
             
         }
         //get movie model & assign props to cell attrs
@@ -118,7 +123,7 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
             
         }else{
             movieCell.posterPathImageView.image = nil
-            let uiActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+            let uiActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
             uiActivityIndicator.frame = movieCell.posterPathImageView.bounds
             uiActivityIndicator.tag = 122
             movieCell.addSubview(uiActivityIndicator)
@@ -157,7 +162,9 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
         if let url = tempUrlForResource, let data = try? Data(contentsOf: url)
         {
             self.tableViewModelAry[withRowIndex].posterPath.imageData = data
-            forTableView.reloadRows(at: [IndexPath(item: withRowIndex, section: 0)], with: .fade)
+            let currentIndexPath = IndexPath(item: withRowIndex, section: 0)
+            guard forTableView.indexPathsForVisibleRows!.contains(currentIndexPath) else{return}
+            forTableView.reloadRows(at: [currentIndexPath], with: .fade)
         }
     }
   }
@@ -170,6 +177,19 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
         
     }
     
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movieCell = tableView.visibleCells[indexPath.row] as! MovieTableViewCell
+        
+        movieCell.startOverviewScrollAnimation()
+        print("selected cell \(indexPath.row)")
+    }
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let movieCell = tableView.visibleCells[indexPath.row] as! MovieTableViewCell
+        movieCell.stopOverviewScrollingAnimation()
+        
+        
+    }
     
     
     

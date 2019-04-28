@@ -31,6 +31,7 @@ class TabViewController: UIViewController, UITabBarDelegate
         let tvFrame = CGRect(x: 0,y: navBarHeight,width: self.view.bounds.width,height: self.view.bounds.height)
         print("height: \(categoryTabBar.bounds.height)")
         movieTableView = UITableView(frame: tvFrame, style: .plain)
+        self.movieTableView.backgroundColor = UIColor.black
         //set datasource/delegate for moviewTableView
         movieTableView.delegate = movieTableViewManager
         movieTableView.dataSource = movieTableViewManager
@@ -42,7 +43,7 @@ class TabViewController: UIViewController, UITabBarDelegate
         movieTableView.prefetchDataSource = (movieTableViewManager as! UITableViewDataSourcePrefetching)
         //add movieTableView as subview to main view
         self.view.insertSubview(movieTableView, belowSubview: categoryTabBar)
-        //change row insertion animation
+        
         
         
         //set categoryTabBar delegate
@@ -75,9 +76,10 @@ class TabViewController: UIViewController, UITabBarDelegate
     
     func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem)
     {
-        //if tab is already selected, ignore event
-//        guard self.categoryTabBar.selectedItem!.tag != item.tag else{return}
         
+        //disable in select
+        categoryTabBar.items!.forEach({$0.isEnabled = true})
+        item.isEnabled = false
         //update observable in movie manager based on tag tag
         movieTableViewManager.presentTabTag = item.tag
         print("Selected Tab: \(item.tag)")

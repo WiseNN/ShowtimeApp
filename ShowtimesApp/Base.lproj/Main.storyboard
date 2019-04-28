@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="YMJ-BM-xms">
-    <device id="retina5_9" orientation="portrait">
+    <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,29 +15,33 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="TabViewController" customModule="ShowtimesApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HDa-m6-Oxg">
-                                <rect key="frame" x="0.0" y="695" width="375" height="83"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oUB-0u-amc">
+                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <tabBar contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="HDa-m6-Oxg">
+                                <rect key="frame" x="0.0" y="653" width="414" height="83"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="83" id="wZX-jP-iui"/>
+                                    <constraint firstAttribute="height" constant="83" id="wZX-jP-iui"/>
                                 </constraints>
                                 <items>
-                                    <tabBarItem title="" image="nowPlayingIcom_unselected" selectedImage="nowPlayingIcom_selected" id="2re-Ni-V43">
+                                    <tabBarItem title="" image="nowPlayingIcom_selected" selectedImage="nowPlayingIcom_selected" id="2re-Ni-V43">
                                         <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-14"/>
                                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                                     </tabBarItem>
-                                    <tabBarItem tag="1" title="" image="popularIcom_unselected" selectedImage="popularIcom_selected" id="rcP-zR-OgT">
+                                    <tabBarItem tag="1" title="" image="popularIcom_selected" selectedImage="popularIcom_selected" id="rcP-zR-OgT">
                                         <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-14"/>
                                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                                     </tabBarItem>
-                                    <tabBarItem tag="2" title="" image="topRatedIcon_unselected" selectedImage="topRatedIcon_selected" id="Gw0-QV-hDX">
+                                    <tabBarItem tag="2" title="" image="topRatedIcon_selected" selectedImage="topRatedIcon_selected" id="Gw0-QV-hDX">
                                         <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-14"/>
                                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                                     </tabBarItem>
-                                    <tabBarItem tag="3" title="" image="upcomingIcon_unselected" selectedImage="upcomingIcon_selected" id="vRp-xU-ghh">
+                                    <tabBarItem tag="3" title="" image="upcomingIcon_selected" selectedImage="upcomingIcon_selected" id="vRp-xU-ghh">
                                         <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-14"/>
                                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                                     </tabBarItem>
@@ -46,9 +50,14 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="oUB-0u-amc" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="45j-bo-B7S"/>
                             <constraint firstItem="HDa-m6-Oxg" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="IVg-bm-kcY"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="oUB-0u-amc" secondAttribute="trailing" id="MCa-0b-MLU"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="oUB-0u-amc" secondAttribute="bottom" id="Two-yO-fC3"/>
                             <constraint firstItem="HDa-m6-Oxg" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="YjB-oV-OaC"/>
+                            <constraint firstItem="HDa-m6-Oxg" firstAttribute="bottom" secondItem="oUB-0u-amc" secondAttribute="bottom" id="Yvn-gQ-iUV"/>
                             <constraint firstItem="HDa-m6-Oxg" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="aFi-m7-hHn"/>
+                            <constraint firstItem="oUB-0u-amc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="fW0-P3-olK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -60,15 +69,16 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="806" y="5"/>
+            <point key="canvasLocation" x="805.79710144927537" y="4.8913043478260869"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="UPz-SI-Or4">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="YMJ-BM-xms" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="eKO-5K-Ru3">
-                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" id="eKO-5K-Ru3">
+                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -83,12 +93,8 @@
     </scenes>
     <resources>
         <image name="nowPlayingIcom_selected" width="50" height="50"/>
-        <image name="nowPlayingIcom_unselected" width="50" height="50"/>
         <image name="popularIcom_selected" width="50" height="50"/>
-        <image name="popularIcom_unselected" width="50" height="50"/>
         <image name="topRatedIcon_selected" width="50" height="50"/>
-        <image name="topRatedIcon_unselected" width="50" height="50"/>
         <image name="upcomingIcon_selected" width="50" height="50"/>
-        <image name="upcomingIcon_unselected" width="50" height="50"/>
     </resources>
 </document>
