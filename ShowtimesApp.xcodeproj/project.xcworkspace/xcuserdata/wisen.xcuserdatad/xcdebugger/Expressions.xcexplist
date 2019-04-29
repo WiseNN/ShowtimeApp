@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "closure #1 in MovieTableViewManager.tableView(_:prefetchRowsAt:):MovieTableViewManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "movieModel.posterPath.url">
+            </PersistentString>
+            <PersistentString
+               value = "movieModel.posterPath">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in MovieTableViewManager.loadModel(atURL:forCategory:):MovieTableViewManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "newMovieModel.posterPath.url">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in TabViewController.refreshTableView():TabViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = " self.movieTableView.indexPathsForVisibleRows">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MovieTableViewManager.tableView(_:prefetchRowsAt:):MovieTableViewManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "movieModel.posterPath.url">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MovieTableViewCell.startOverviewScrollAnimation():MovieTableViewCell.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "movieOverViewLabelCopy.frame">
+            </PersistentString>
+            <PersistentString
+               value = "parentView.frame">
+            </PersistentString>
+            <PersistentString
+               value = "self.movieOverviewLabel.frame">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MovieTableViewManager.tableView(_:cellForRowAt:):MovieTableViewManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "tableViewModelAry.count ">
+            </PersistentString>
+            <PersistentString
+               value = "movieModel.posterPath.imageData">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

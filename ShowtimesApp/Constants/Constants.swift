@@ -12,6 +12,7 @@ import UIKit
 struct Config{
     let cellReuseID = "movieCell"
     let nibName = "MovieTableViewCell"
+    
 }
 
 struct Urls{
@@ -28,8 +29,20 @@ struct Notifications{
     let refreshTable = Notification.Name(rawValue: "RefreshTable")
 }
 
+
+struct Tags {
+    let parentViewCellTag = 543
+    let movieCellTag = 232
+    let uiActivityIndicatorTag = 122
+    let movieTableViewTag = 432
+    let copyLabelForAnim = 112
+}
+
 struct MovieConst{
    static let config = Config()
     static let urls = Urls()
     static let notifications = Notifications()
+    static let tags = Tags()
+    
 }
+

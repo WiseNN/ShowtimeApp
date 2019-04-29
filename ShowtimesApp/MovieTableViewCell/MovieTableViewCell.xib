@@ -35,24 +35,25 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QtH-eV-VJc">
+                    <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mb9-p7-JhR">
                         <rect key="frame" x="136" y="66" width="218" height="105"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="Oed-UZ-APV" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="0u3-ci-EWl"/>
-                    <constraint firstItem="QtH-eV-VJc" firstAttribute="leading" secondItem="Oed-UZ-APV" secondAttribute="trailing" constant="8" id="4a4-wq-1lA"/>
                     <constraint firstAttribute="trailing" secondItem="4vq-6p-jz3" secondAttribute="trailing" constant="22" id="9MS-vu-7Em"/>
                     <constraint firstAttribute="bottom" secondItem="Oed-UZ-APV" secondAttribute="bottom" constant="-0.5" id="BrL-Mi-xce"/>
-                    <constraint firstAttribute="bottom" secondItem="QtH-eV-VJc" secondAttribute="bottom" constant="10.5" id="EuA-Ze-DkV"/>
+                    <constraint firstItem="Mb9-p7-JhR" firstAttribute="top" secondItem="4vq-6p-jz3" secondAttribute="bottom" id="FCd-p3-b3w"/>
                     <constraint firstItem="Oed-UZ-APV" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="GQ0-y1-TC2"/>
-                    <constraint firstItem="QtH-eV-VJc" firstAttribute="top" secondItem="4vq-6p-jz3" secondAttribute="bottom" id="Hqt-6w-kc6"/>
+                    <constraint firstAttribute="trailing" secondItem="Mb9-p7-JhR" secondAttribute="trailing" constant="22" id="KWw-aG-rVT"/>
+                    <constraint firstAttribute="bottom" secondItem="Mb9-p7-JhR" secondAttribute="bottom" constant="10.5" id="LXb-MS-0eV"/>
+                    <constraint firstItem="Mb9-p7-JhR" firstAttribute="leading" secondItem="Oed-UZ-APV" secondAttribute="trailing" constant="8" id="Spq-Ww-rxE"/>
                     <constraint firstItem="4vq-6p-jz3" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="TdM-9K-k3j"/>
                     <constraint firstAttribute="trailing" secondItem="Oed-UZ-APV" secondAttribute="trailing" constant="229" id="Y4r-da-sS0"/>
-                    <constraint firstAttribute="trailing" secondItem="QtH-eV-VJc" secondAttribute="trailing" constant="22" id="dS0-O5-pyE"/>
                     <constraint firstItem="4vq-6p-jz3" firstAttribute="leading" secondItem="Oed-UZ-APV" secondAttribute="trailing" constant="8" id="jUV-2V-sGs"/>
                 </constraints>
                 <variation key="default">
@@ -63,7 +64,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="movieOverviewLabel" destination="QtH-eV-VJc" id="giX-34-WOa"/>
+                <outlet property="movieOverviewTextView" destination="Mb9-p7-JhR" id="gOC-Ly-ksk"/>
                 <outlet property="movieTitleLabel" destination="4vq-6p-jz3" id="kIJ-ZL-J45"/>
                 <outlet property="posterPathImageView" destination="Oed-UZ-APV" id="9fW-QB-txw"/>
             </connections>

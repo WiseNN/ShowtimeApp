@@ -8,26 +8,26 @@
 
 import UIKit
 
-class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource, UITableViewDataSourcePrefetching
+class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource, UITableViewDataSourcePrefetching, UIScrollViewDelegate
 {
     
     //data model vars
-    var movies = Movies()
-    var tableViewModelAry : [MovieModel] = [MovieModel]()
+    private var movies = Movies()
+    private var tableViewModelAry : [MovieModel] = [MovieModel]()
         //set present tab
     var presentTabTag : Int! {
         didSet{
             
             let movieCategory = Movies.MovieCategory(rawValue: presentTabTag)!
-            let movieModelAry = movies.getModel(forCategory: movieCategory)
+            let movieModelAry = self.movies.getModel(forCategory: movieCategory)
             
             //if nil, load model else use in memory model
             guard movieModelAry == nil else{
-                tableViewModelAry = movieModelAry!
+                self.tableViewModelAry = movieModelAry!
                 NotificationCenter.default.post(name: MovieConst.notifications.refreshTable, object: nil)
                 return
             }
-            let categoryUrl = movies.getUrl(forCategory: movieCategory)
+            let categoryUrl = self.movies.getUrl(forCategory: movieCategory)
             loadModel(atURL: categoryUrl, forCategory: movieCategory)
             
         }
@@ -84,7 +84,7 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
         }
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableViewModelAry.count
+        return self.tableViewModelAry.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -95,28 +95,29 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
         
         let movieCell = tableView.dequeueReusableCell(withIdentifier: MovieConst.config.cellReuseID)! as! MovieTableViewCell
         
-        if movieCell.tag != 232
+        if movieCell.tag != MovieConst.tags.movieCellTag
         {
-            movieCell.tag == 232
+            movieCell.tag == MovieConst.tags.movieCellTag
             movieCell.posterPathImageView.contentMode = .scaleAspectFill
             movieCell.posterPathImageView.clipsToBounds = true
             movieCell.contentView.layer.backgroundColor = UIColor.black.cgColor
             movieCell.movieTitleLabel.textColor = UIColor.white
-            movieCell.movieOverviewLabel.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
-            movieCell.selectionStyle = .none
             
+            movieCell.movieOverviewTextView.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
+            movieCell.selectionStyle = .gray
+            movieCell.movieOverviewTextView.contentOffset.y = 0
             
         }
         //get movie model & assign props to cell attrs
-        guard tableViewModelAry.count > 0 else{return movieCell}
+        guard self.tableViewModelAry.count > 0 else{return movieCell}
         let movieModel = self.tableViewModelAry[indexPath.row]
         movieCell.movieTitleLabel.text = movieModel.movieTitleText
-        movieCell.movieOverviewLabel.text = movieModel.movieOverviewLabelText
+        movieCell.movieOverviewTextView.text = movieModel.movieOverviewLabelText
         if let imageData = movieModel.posterPath.imageData
         {
             DispatchQueue.main.async {
                 let img = UIImage(data: imageData)
-                movieCell.viewWithTag(122)?.removeFromSuperview()
+                movieCell.viewWithTag(MovieConst.tags.uiActivityIndicatorTag)?.removeFromSuperview()
                 movieCell.posterPathImageView.image = img
                 
             }
@@ -125,7 +126,7 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
             movieCell.posterPathImageView.image = nil
             let uiActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
             uiActivityIndicator.frame = movieCell.posterPathImageView.bounds
-            uiActivityIndicator.tag = 122
+            uiActivityIndicator.tag = MovieConst.tags.uiActivityIndicatorTag
             movieCell.addSubview(uiActivityIndicator)
             uiActivityIndicator.startAnimating()
             
@@ -164,7 +165,12 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
             self.tableViewModelAry[withRowIndex].posterPath.imageData = data
             let currentIndexPath = IndexPath(item: withRowIndex, section: 0)
             guard forTableView.indexPathsForVisibleRows!.contains(currentIndexPath) else{return}
-            forTableView.reloadRows(at: [currentIndexPath], with: .fade)
+//            UIView.performWithoutAnimation {
+                forTableView.invalidateIntrinsicContentSize()
+                forTableView.reloadRows(at: [currentIndexPath], with: .fade)
+                forTableView.cellForRow(at: currentIndexPath)!.layoutIfNeeded()
+//            }
+            
         }
     }
   }
@@ -172,24 +178,43 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
     //tableView prefecting delegate func
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         
-        guard tableViewModelAry.count > 0 else{return}
+        guard self.tableViewModelAry.count > 0 else{return}
         indexPaths.forEach{self.imageDownloadHelper(forTableView: tableView, withRowIndex: $0.row)}
         
     }
     
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let movieCell = tableView.visibleCells[indexPath.row] as! MovieTableViewCell
+    
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+
+        guard tableView.indexPathForSelectedRow == nil || tableView.indexPathForSelectedRow!.row != indexPath.row else{print("row \(indexPath.row) already selected");return nil}
         
+        return indexPath
+        
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
+        
+        print("selected row: \(indexPath.row)")
+        
+        let movieCell = tableView.cellForRow(at: indexPath) as! MovieTableViewCell
         movieCell.startOverviewScrollAnimation()
-        print("selected cell \(indexPath.row)")
+        
     }
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let movieCell = tableView.visibleCells[indexPath.row] as! MovieTableViewCell
+        guard let movieCell = tableView.cellForRow(at: indexPath) as? MovieTableViewCell else{return}
         movieCell.stopOverviewScrollingAnimation()
-        
-        
     }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        //stop animation if table view starts to scroll
+        let movieTableView = scrollView.viewWithTag(MovieConst.tags.movieTableViewTag) as! UITableView
+        guard let selectedIndexPath = movieTableView.indexPathForSelectedRow else{return}
+        guard let movieCell = movieTableView.cellForRow(at: selectedIndexPath) as? MovieTableViewCell else{return}
+        movieCell.stopOverviewScrollingAnimation()
+    }
+    
     
     
     
