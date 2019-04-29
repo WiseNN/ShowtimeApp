@@ -102,9 +102,8 @@ class MovieTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSourc
             movieCell.posterPathImageView.clipsToBounds = true
             movieCell.contentView.layer.backgroundColor = UIColor.black.cgColor
             movieCell.movieTitleLabel.textColor = UIColor.white
-            
             movieCell.movieOverviewTextView.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
-            movieCell.selectionStyle = .gray
+            movieCell.selectionStyle = .none
             movieCell.movieOverviewTextView.contentOffset.y = 0
             
         }

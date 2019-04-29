@@ -26,11 +26,40 @@ extension UITableView{
     {
         guard self != nil && self.superview != nil else{return}
         self.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            self.leadingAnchor.constraint(equalTo: self.superview!.leadingAnchor, constant: 0),
-            self.trailingAnchor.constraint(equalTo: self.superview!.trailingAnchor, constant: 0),
-            self.bottomAnchor.constraint(equalTo: self.superview!.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            self.topAnchor.constraint(equalTo: self.superview!.topAnchor, constant: 0)
-            ])
+        self.insetsLayoutMarginsFromSafeArea = false
+        let leftConstraint = NSLayoutConstraint(item: self,
+                                                attribute: .trailing,
+                                                relatedBy: .equal,
+                                                toItem: self.superview!,
+                                                attribute: .trailing,
+                                                multiplier: 1.0,
+                                                constant: 0.0)
+        
+        let rightConstraint = NSLayoutConstraint(item: self,
+                                                attribute: .leading,
+                                                relatedBy: .equal,
+                                                toItem: self.superview!,
+                                                attribute: .leading,
+                                                multiplier: 1.0,
+                                                constant: 0.0)
+        let bottomConstraint = NSLayoutConstraint(item: self,
+                                                 attribute: .bottom,
+                                                 relatedBy: .equal,
+                                                 toItem: self.superview!,
+                                                 attribute: .bottom,
+                                                 multiplier: 1.0,
+                                                 constant: 0.0)
+        let topConstraint = NSLayoutConstraint(item: self,
+                                                  attribute: .top,
+                                                  relatedBy: .equal,
+                                                  toItem: self.superview!,
+                                                  attribute: .top,
+                                                  multiplier: 1.0,
+                                                  constant: 0.0)
+        
+        self.superview!.addConstraint(leftConstraint)
+        self.superview!.addConstraint(rightConstraint)
+        self.superview!.addConstraint(bottomConstraint)
+        self.superview!.addConstraint(topConstraint)
     }
 }

@@ -24,6 +24,8 @@ class TabViewController: UIViewController, UITabBarDelegate
     
     //stop possible animation before rotation
     override var shouldAutorotate: Bool{
+        
+        
         guard self.movieTableView != nil else{return true}
         self.stopTableViewCellAnimHelper()
 //        self.movieTableView.layoutIfNeeded()
@@ -33,20 +35,27 @@ class TabViewController: UIViewController, UITabBarDelegate
     
     override func viewDidLoad()
     {
+        
+        
         super.viewDidLoad()
         //add translucence  to nav bar
         self.navigationController!.navigationBar.alpha = 0.5
+        
         //add resizing mask to main view for rotation
         self.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.view.setNeedsDisplay()
         //create movie movieTableview
         let navBarHeight = self.navigationController!.navigationBar.bounds.height
         print("navHeight: \(navBarHeight)")
-//        let tvFrame = CGRect(x: 0,y: navBarHeight,width: self.view.bounds.width,height: self.view.bounds.height)
+        let tvFrame = CGRect(x: 0,y: navBarHeight,width: self.view.bounds.width,height: self.view.bounds.height)
         print("height: \(self.categoryTabBar.bounds.height)")
         self.movieTableView = UITableView()
+        
         self.view.insertSubview(self.movieTableView, at: 0)
+//        self.view.addSubview(self.movieTableView)
         self.movieTableView.addLayoutConstraints()
+        movieTableView.preservesSuperviewLayoutMargins = true
+        print("self.movieTableView.bounds : \(self.movieTableView.bounds)")
         ////add resizing mask to movieTableView rotation
         self.movieTableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.movieTableView.backgroundColor = UIColor.black
@@ -62,6 +71,7 @@ class TabViewController: UIViewController, UITabBarDelegate
 
         //set categoryTabBar delegate
         self.categoryTabBar.delegate = self
+        
         
         
         

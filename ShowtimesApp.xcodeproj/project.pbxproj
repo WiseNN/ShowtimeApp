@@ -16,7 +16,7 @@
 		8DC7EFC12273DE7500EF2CCF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DC7EFBF2273DE7500EF2CCF /* LaunchScreen.storyboard */; };
 		8DC7EFCC2273DE7500EF2CCF /* ShowtimesAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC7EFCB2273DE7500EF2CCF /* ShowtimesAppTests.swift */; };
 		8DC7EFD72273DE7500EF2CCF /* ShowtimesAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC7EFD62273DE7500EF2CCF /* ShowtimesAppUITests.swift */; };
-		8DC7EFE72274190500EF2CCF /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC7EFE62274190500EF2CCF /* NetworkManager.swift */; };
+		8DC7EFE72274190500EF2CCF /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC7EFE62274190500EF2CCF /* Downloader.swift */; };
 		8DC7EFEB2274435500EF2CCF /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC7EFE92274435500EF2CCF /* MovieTableViewCell.swift */; };
 		8DC7EFEC2274435500EF2CCF /* MovieTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DC7EFEA2274435500EF2CCF /* MovieTableViewCell.xib */; };
 		8DC7EFEF2274487200EF2CCF /* MovieTableViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC7EFEE2274487200EF2CCF /* MovieTableViewManager.swift */; };
@@ -57,7 +57,7 @@
 		8DC7EFD22273DE7500EF2CCF /* ShowtimesAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShowtimesAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DC7EFD62273DE7500EF2CCF /* ShowtimesAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowtimesAppUITests.swift; sourceTree = "<group>"; };
 		8DC7EFD82273DE7500EF2CCF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8DC7EFE62274190500EF2CCF /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		8DC7EFE62274190500EF2CCF /* Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
 		8DC7EFE92274435500EF2CCF /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 		8DC7EFEA2274435500EF2CCF /* MovieTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieTableViewCell.xib; sourceTree = "<group>"; };
 		8DC7EFEE2274487200EF2CCF /* MovieTableViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewManager.swift; sourceTree = "<group>"; };
@@ -175,7 +175,7 @@
 		8DC7EFE5227418DC00EF2CCF /* Network Manager */ = {
 			isa = PBXGroup;
 			children = (
-				8DC7EFE62274190500EF2CCF /* NetworkManager.swift */,
+				8DC7EFE62274190500EF2CCF /* Downloader.swift */,
 			);
 			path = "Network Manager";
 			sourceTree = "<group>";
@@ -351,7 +351,7 @@
 				8DC7EFF72274E06000EF2CCF /* MovieModel.swift in Sources */,
 				8DC7EFEF2274487200EF2CCF /* MovieTableViewManager.swift in Sources */,
 				8D1436642276AFBA00F83C91 /* MovieNavigationController.swift in Sources */,
-				8DC7EFE72274190500EF2CCF /* NetworkManager.swift in Sources */,
+				8DC7EFE72274190500EF2CCF /* Downloader.swift in Sources */,
 				8D95DF1B227608000037757F /* Extensions.swift in Sources */,
 				8DC7EFB92273DE7500EF2CCF /* TabViewController.swift in Sources */,
 				8DC7EFEB2274435500EF2CCF /* MovieTableViewCell.swift in Sources */,

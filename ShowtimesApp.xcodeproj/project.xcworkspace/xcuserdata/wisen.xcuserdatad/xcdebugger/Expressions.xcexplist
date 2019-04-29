@@ -3,6 +3,28 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "MovieTableViewCell.startOverviewScrollAnimation():MovieTableViewCell.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.movieOverviewLabel.frame">
+            </PersistentString>
+            <PersistentString
+               value = "parentView.frame">
+            </PersistentString>
+            <PersistentString
+               value = "movieOverViewLabelCopy.frame">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TabViewController.viewDidLoad():TabViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "movieTableView">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in MovieTableViewManager.tableView(_:prefetchRowsAt:):MovieTableViewManager.swift">
          <PersistentStrings>
             <PersistentString
@@ -14,18 +36,21 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in MovieTableViewManager.loadModel(atURL:forCategory:):MovieTableViewManager.swift">
+         contextName = "MovieTableViewManager.tableView(_:didSelectRowAt:):MovieTableViewManager.swift">
          <PersistentStrings>
             <PersistentString
-               value = "newMovieModel.posterPath.url">
+               value = "tableView.indexPathForSelectedRow!.row">
+            </PersistentString>
+            <PersistentString
+               value = "indexPath.row">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in TabViewController.refreshTableView():TabViewController.swift">
+         contextName = "MovieTableViewManager.tableView(_:didDeselectRowAt:):MovieTableViewManager.swift">
          <PersistentStrings>
             <PersistentString
-               value = " self.movieTableView.indexPathsForVisibleRows">
+               value = "tableView.visibleCells[indexPath.row] as? MovieTableViewCell">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -38,20 +63,6 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "MovieTableViewCell.startOverviewScrollAnimation():MovieTableViewCell.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "movieOverViewLabelCopy.frame">
-            </PersistentString>
-            <PersistentString
-               value = "parentView.frame">
-            </PersistentString>
-            <PersistentString
-               value = "self.movieOverviewLabel.frame">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "MovieTableViewManager.tableView(_:cellForRowAt:):MovieTableViewManager.swift">
          <PersistentStrings>
             <PersistentString
@@ -59,6 +70,14 @@
             </PersistentString>
             <PersistentString
                value = "movieModel.posterPath.imageData">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in MovieTableViewManager.loadModel(atURL:forCategory:):MovieTableViewManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "newMovieModel.posterPath.url">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
